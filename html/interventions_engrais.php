@@ -178,7 +178,7 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
     <br/>
     <li><a href="parcelles.php">Création des parcelles</a></li>
     <br/>
-    <li><a href="rapport-engrais.php">Visualisation des intervention engrais</a></li>
+    <li><a href="rapport-engrais.php">Visualisation des interventions engrais</a></li>
     <br/>
     <li><a href="index.php">Retour à l'accueil</a></li>
 </body>
