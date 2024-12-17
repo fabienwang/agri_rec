@@ -28,17 +28,17 @@ if (!isset($_SESSION['user_id'])) {
     <a id="logout" href="logout.php"> <button> Se déconnecter </button></a>
     <nav>
         <li><a href="parcelles.php">Gestion des parcelles</a></li>
-        <li></li>
+        <br/>
         <li><a href="engrais.php">Gestion des engrais</a></li>
-        <li></li>
+        <br/>
         <li><a href="phytosanitaires.php">Gestion des produits phytosanitaires</a></li>
-        <li></li>
+        <br/>
         <li><a href="interventions_engrais.php">Application d'engrais</a></li>
-        <li></li>
+        <br/>
         <li><a href="interventions_phyto.php">Application phytosanitaires</a></li>
-        <li></li>
+        <br/>
         <li><a href="rapport-phyto.php">Rapport des interventions phytosanitaires</a></li>
-        <li></li>
+        <br/>
         <li><a href="rapport-engrais.php">Rapport des interventions engrais</a></li>
     </nav>
 </body>
