@@ -28,6 +28,7 @@ $query = "
         p.culture AS type_culture,
         p.surface,
         pp.nom AS produit_nom,
+        pp.unite_emballage AS produit_unite
         pp.amm AS produit_amm,
         dip.volume_total,
         (dip.volume_total / p.surface) AS volume_par_ha
@@ -91,6 +92,7 @@ try {
         $interventions[$key]['interventions'][] = [
             'date' => $row['date'],
             'produit_nom' => $row['produit_nom'],
+            'produit_unite' => $row['produit_unite']
             'produit_amm' => $row['produit_amm'],
             'volume_total' => $row['volume_total'],
             'volume_par_ha' => $row['volume_par_ha']
@@ -180,6 +182,7 @@ $total_pages = ceil($total_interventions / $limit);
                     <tr>
                         <th>Date</th>
                         <th>Produit</th>
+                        <th>Unité</th>
                         <th>AMM</th>
                         <th>Volume total</th>
                         <th>Volume par ha</th>
@@ -190,6 +193,7 @@ $total_pages = ceil($total_interventions / $limit);
                         <tr>
                             <td><?php if ($detail['date'] !== $last_date) { echo htmlspecialchars($detail['date']); $last_date = $detail['date'];}  ?></td>
                             <td><?= htmlspecialchars($detail['produit_nom']) ?></td>
+                            <td><?= htmlspecialchars($detail['produit_unite']) ?></td>
                             <td><?= htmlspecialchars($detail['produit_amm']) ?></td>
                             <td><?= htmlspecialchars($detail['volume_total']) ?></td>
                             <td><?= htmlspecialchars($detail['volume_par_ha']) ?></td>
