@@ -166,9 +166,9 @@ $engrais = $db->query('SELECT * FROM engrais');
     }
     </script>
     <h3> Navigation dans les pages de gestion </h3>
-    <li></li>
+    <br/>
     <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
-    <li></li>
+    <br/>
     <li><a href="index.php">Retour à l'accueil</a></li>
 </body>
 </html>
