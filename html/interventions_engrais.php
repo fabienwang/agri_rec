@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $parcelles = $db->query('SELECT * FROM parcelles');
 $engrais = $db->query('SELECT * FROM engrais');
-$interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrais_nom 
+$interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrais_nom, e.unite as engrais_unite
                              FROM interventions_engrais ie 
                              JOIN parcelles p ON ie.parcelle_id = p.id 
                              JOIN engrais e ON ie.engrais_id = e.id');
@@ -105,11 +105,12 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
     </form>
 
     <h3>Liste des interventions</h3>
-    <table border="1">
+    <table>
         <tr>
             <th>Date</th>
             <th>Parcelle</th>
             <th>Engrais</th>
+            <th>Unité</th>
             <th>Quantité</th>
             <th>Année culturale</th>
             <th>Actions</th>
@@ -119,6 +120,7 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
             <td><?php echo htmlspecialchars($intervention['date']); ?></td>
             <td><?php echo htmlspecialchars($intervention['parcelle_nom']); ?></td>
             <td><?php echo htmlspecialchars($intervention['engrais_nom']); ?></td>
+            <td><?php echo htmlspecialchars($intervention['engrais_unite']); ?></td>
             <td><?php echo htmlspecialchars($intervention['quantite']); ?></td>
             <td><?php echo htmlspecialchars($intervention['annee_culturale']); ?></td>
             <td>
