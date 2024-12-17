@@ -132,13 +132,13 @@ $parcelles = $db->query('SELECT * FROM parcelles');
     </script>
     <h3> Navigation dans les pages de gestion </h3>
     <li><a href="engrais.php">Création / Liste des engrais</a></li>
-    <li></li>
+    <br/>
     <li><a href="phytosanitaires.php">Création / Liste des produits phytosanitaires</a></li>
-    <li></li>
+    <br/>
     <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
-    <li></li>
+    <br/>
     <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
-    <li></li>
+    <br/>
     <li><a href="index.php">Retour à l'accueil</a></li>
 </body>
 </html>
