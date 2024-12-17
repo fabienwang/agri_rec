@@ -92,7 +92,7 @@ try {
         $interventions[$key]['interventions'][] = [
             'date' => $row['date'],
             'produit_nom' => $row['produit_nom'],
-            'produit_unite' => $row['produit_unite']
+            'produit_unite' => $row['produit_unite'],
             'produit_amm' => $row['produit_amm'],
             'volume_total' => $row['volume_total'],
             'volume_par_ha' => $row['volume_par_ha']
