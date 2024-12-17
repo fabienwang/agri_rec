@@ -120,7 +120,10 @@ $produits = $db->query('SELECT * FROM produits_phytosanitaires ORDER BY nom');
         document.getElementById('update_amm').value = produit.amm;
     }
     </script>
-
+    <h3> Navigation dans les pages de gestion </h3>
+    <br/>
+    <li><a href="interventions_phytos.php">Création d'une intervention phytosanitaire</a></li>
+    <br/>
     <p><a href="index.php">Retour à l'accueil</a></p>
 </body>
 </html>
