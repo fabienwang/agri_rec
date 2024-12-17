@@ -173,13 +173,13 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
     }
     </script>
     <h3> Navigation dans les pages de gestion </h3>
-    <li></li>
+    <br/>
     <li><a href="engrais.php">Création des engrais</a></li>
-    <li></li>
+    <br/>
     <li><a href="parcelles.php">Création des parcelles</a></li>
-    <li></li>
+    <br/>
     <li><a href="rapport-engrais.php">Visualisation des intervention engrais</a></li>
-    <li></li>
+    <br/>
     <li><a href="index.php">Retour à l'accueil</a></li>
 </body>
 </html>
