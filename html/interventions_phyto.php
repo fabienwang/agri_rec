@@ -157,7 +157,7 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface
                 while ($detail = $details->fetchArray(SQLITE3_ASSOC)) {
                     echo htmlspecialchars($detail['produit_nom']) . ' : ' . 
                          htmlspecialchars($detail['volume_total']) . ' ' . 
-                         htmlspecialchars($detail['volume_total'] / $intervention['surface'] $intervention['produit_unite']) . '/ha<br>';
+                         htmlspecialchars(($detail['volume_total'] / $intervention['surface']) . ' ' . $intervention['produit_unite']) . '/ha<br>';
                 }
                 ?>
             </td>
