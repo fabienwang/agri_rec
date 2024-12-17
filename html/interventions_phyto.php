@@ -141,6 +141,9 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface
             <th>Parcelle</th>
             <th>Année culturale</th>
             <th>Produits utilisés</th>
+            <th>Unités</th>
+            <th>Volume total</th>
+            <th>Volume / ha</th>
             <th>Actions</th>
         </tr>
         <?php while ($intervention = $interventions->fetchArray(SQLITE3_ASSOC)): ?>
@@ -149,17 +152,18 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface
             <td><?php echo htmlspecialchars($intervention['parcelle_nom']); ?></td>
             <td><?php echo htmlspecialchars($intervention['annee_culturale']); ?></td>
             <td>
-                <?php
-                $details = $db->query('SELECT dip.*, pp.nom as produit_nom 
-                                       FROM details_interventions_phytosanitaires dip 
-                                       JOIN produits_phytosanitaires pp ON dip.produit_id = pp.id 
-                                       WHERE dip.intervention_id = ' . $intervention['id']);
-                while ($detail = $details->fetchArray(SQLITE3_ASSOC)) {
-                    echo htmlspecialchars($detail['produit_nom']) . ' : ' . 
-                         htmlspecialchars($detail['volume_total']) . ' ' . 
-                         htmlspecialchars($detail['volume_total'] / $intervention['surface']) . ' /ha<br>';
-                }
-                ?>
+            <?php
+            $details = $db->query('SELECT dip.*, pp.nom as produit_nom pp.unite as produit_unite
+                                FROM details_interventions_phytosanitaires dip 
+                                JOIN produits_phytosanitaires pp ON dip.produit_id = pp.id 
+                                WHERE dip.intervention_id = ' . $intervention['id']);
+            while ($detail = $details->fetchArray(SQLITE3_ASSOC)) { ?>
+                <td><?php echo htmlspecialchars($detail['produit_nom'])?></td>
+                <td><?php echo htmlspecialchars($detail['produit_unite'])?></td>
+                <td><?php echo htmlspecialchars($detail['volume_total'])?></td>
+                <td><?php echo htmlspecialchars($detail['volume_total'] / $intervention['surface']);?></td>
+            
+            <?php } ?>
             </td>
             <td>
                 <form method="post" style="display:inline;">
