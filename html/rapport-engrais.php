@@ -195,9 +195,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             };
         }; ?>
         <h3> Navigation dans les pages de gestion </h3>
-            <li></li>
+            <br/>
             <li><a href="interventions_engrais.php">Création des interventions engrais</a></li>
-            <li></li>
+            <br/>
             <li><a href="index.php">Retour à l'accueil</a></li>
     </body>
 </html>
