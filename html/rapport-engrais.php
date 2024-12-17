@@ -155,14 +155,15 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         <tr>
                             <th>Date</th>
                             <th>Engrais</th>
+                            <th>Unité</th>
                             <th>Quantité totale</th>
                             <th>Quantité par ha</th>
-                            <th>NO3</th>
-                            <th>P2O5</th>
-                            <th>K2O</th>
-                            <th>SO3</th>
-                            <th>MgO</th>
-                            <th>CaO</th>
+                            <th>NO3 (U/ha)</th>
+                            <th>P2O5 (U/ha)</th>
+                            <th>K2O (U/ha)</th>
+                            <th>SO3 (U/ha)</th>
+                            <th>MgO (U/ha)</th>
+                            <th>CaO (U/ha)</th>
                         </tr>
                     <?php
                     $current_annee = $intervention['annee_culturale'];
@@ -171,6 +172,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 <tr>
                     <td><?php echo htmlspecialchars($intervention['date']); ?></td>
                     <td><?php echo htmlspecialchars($intervention['engrais_nom']); ?></td>
+                    <td><?php echo htmlspecialchars($intervention['engrais_unite']); ?></td>
                     <td><?php echo htmlspecialchars($intervention['quantite']); ?></td>
                     <td><?php echo htmlspecialchars($intervention['quantite_par_ha']); ?></td>
                     <td><?php echo round($intervention['total_NO3'], 2); ?></td>
