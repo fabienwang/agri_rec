@@ -28,7 +28,7 @@ $query = "
         p.culture AS type_culture,
         p.surface,
         pp.nom AS produit_nom,
-        pp.unite_emballage AS produit_unite
+        pp.unite_emballage AS produit_unite,
         pp.amm AS produit_amm,
         dip.volume_total,
         (dip.volume_total / p.surface) AS volume_par_ha
