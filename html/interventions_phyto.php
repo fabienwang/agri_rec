@@ -172,13 +172,13 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface
         <?php endwhile; ?>
     </table>
     <h3> Navigation dans les pages de gestion </h3>
-    <li></li>
+    <br/>
     <li><a href="parcelles.php">Création des parcelles d'intervention</a></li>
-    <li></li>
+    <br/>
     <li><a href="phytosanitaires.php">Création des produits phytosanitaires</a></li>
-    <li></li>
+    <br/>
     <li><a href="rapport-phyto.php">Visualisation des interventions phytosanitaires</a></li>
-    <li></li>
+    <br/>
     <li><a href="index.php">Retour à l'accueil</a></li>
 </body>
 </html>
