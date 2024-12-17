@@ -115,7 +115,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             function afficherTotal($annee, $totals) {
         ?>
                 <tr class="total-row">
-                    <td colspan="4">Total pour l'année <?php echo htmlspecialchars($annee); ?></td>
+                    <td colspan="5">Total pour l'année <?php echo htmlspecialchars($annee); ?></td>
                     <td><?php echo round($totals['NO3'], 2); ?></td>
                     <td><?php echo round($totals['P2O5'], 2); ?></td>
                     <td><?php echo round($totals['K2O'], 2); ?></td>
