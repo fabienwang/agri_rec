@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         FOREIGN KEY (produit_id) REFERENCES produits_phytosanitaires(id)
     )");
 
-    $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    $username = htmlspecialchars(stripslashes(trim($_POST['username'])));
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
 $stmt = $db->prepare('INSERT OR IGNORE INTO users (username, password) VALUES (:username, :password)');
