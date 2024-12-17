@@ -1,0 +1,219 @@
+<?php
+session_start();
+require_once 'includes/db.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$db = getDB();
+
+// Validation stricte des entrées utilisateur
+$annee_filter = isset($_GET['annee']) && ctype_digit($_GET['annee']) ? $_GET['annee'] : null;
+$parcelle_filter = isset($_GET['parcelle']) ? htmlspecialchars($_GET['parcelle'], ENT_QUOTES, 'UTF-8') : null;
+
+// Pagination
+$limit = 20; // Nombre d'interventions par page
+$page = isset($_GET['page']) && ctype_digit($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$offset = ($page - 1) * $limit;
+
+// Requête SQL avec filtres et pagination
+$query = "
+    SELECT 
+        ip.id AS intervention_id,
+        ip.date,
+        ip.annee_culturale,
+        p.nom AS parcelle_nom,
+        p.culture AS type_culture,
+        p.surface,
+        pp.nom AS produit_nom,
+        pp.amm AS produit_amm,
+        dip.volume_total,
+        (dip.volume_total / p.surface) AS volume_par_ha
+    FROM 
+        interventions_phytosanitaires ip
+    JOIN 
+        parcelles p ON ip.parcelle_id = p.id
+    JOIN 
+        details_interventions_phytosanitaires dip ON ip.id = dip.intervention_id
+    JOIN 
+        produits_phytosanitaires pp ON dip.produit_id = pp.id
+    WHERE 1=1
+";
+
+$params = [];
+if ($annee_filter) {
+    $query .= " AND ip.annee_culturale = :annee_culturale";
+    $params[':annee_culturale'] = $annee_filter;
+}
+if ($parcelle_filter) {
+    $query .= " AND p.nom = :parcelle_nom";
+    $params[':parcelle_nom'] = $parcelle_filter;
+}
+
+$query .= " ORDER BY ip.annee_culturale, p.nom, ip.date, pp.nom
+            LIMIT :limit OFFSET :offset";
+
+$params[':limit'] = $limit;
+$params[':offset'] = $offset;
+
+try {
+    $stmt = $db->prepare($query);
+    if (!$stmt) {
+        throw new Exception($db->lastErrorMsg());
+    }
+
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value, is_int($value) ? SQLITE3_INTEGER : SQLITE3_TEXT);
+    }
+
+    $result = $stmt->execute();
+    if (!$result) {
+        throw new Exception($db->lastErrorMsg());
+    }
+
+    // Stocker les interventions groupées
+    $interventions = [];
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $key = $row['annee_culturale'] . '_' . $row['parcelle_nom'];
+        if (!isset($interventions[$key])) {
+            $interventions[$key] = [
+                'annee_culturale' => $row['annee_culturale'],
+                'parcelle_nom' => $row['parcelle_nom'],
+                'surface' => $row['surface'],
+                'type_culture' => $row['type_culture'],
+                'interventions' => []
+            ];
+        }
+        
+        $interventions[$key]['interventions'][] = [
+            'date' => $row['date'],
+            'produit_nom' => $row['produit_nom'],
+            'produit_amm' => $row['produit_amm'],
+            'volume_total' => $row['volume_total'],
+            'volume_par_ha' => $row['volume_par_ha']
+        ];
+    }
+
+} catch (Exception $e) {
+    die('Erreur : ' . $e->getMessage());
+}
+
+// Compter le nombre total d'interventions pour la pagination
+$count_query = "SELECT COUNT(DISTINCT ip.id) as total FROM interventions_phytosanitaires ip
+                JOIN parcelles p ON ip.parcelle_id = p.id
+                WHERE 1=1";
+if ($annee_filter) {
+    $count_query .= " AND ip.annee_culturale = :annee_culturale";
+}
+if ($parcelle_filter) {
+    $count_query .= " AND p.nom = :parcelle_nom";
+}
+
+$count_stmt = $db->prepare($count_query);
+if ($annee_filter) {
+    $count_stmt->bindValue(':annee_culturale', $annee_filter, SQLITE3_TEXT);
+}
+if ($parcelle_filter) {
+    $count_stmt->bindValue(':parcelle_nom', $parcelle_filter, SQLITE3_TEXT);
+}
+
+$count_result = $count_stmt->execute();
+$total_interventions = $count_result->fetchArray(SQLITE3_ASSOC)['total'];
+$total_pages = ceil($total_interventions / $limit);
+
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport des interventions phytosanitaires</title>
+    <link rel="stylesheet" href="includes/style.css">
+</head>
+<body>
+    <h1>Rapport des interventions phytosanitaires</h1>
+    
+    <!-- Formulaire de tri -->
+    <form method="get">
+        <select name="annee">
+            <option value="">Toutes les années</option>
+            <?php
+            $annees = $db->query("SELECT DISTINCT annee_culturale FROM interventions_phytosanitaires ORDER BY annee_culturale");
+            while ($annee = $annees->fetchArray(SQLITE3_ASSOC)) {
+                $selected = ($annee['annee_culturale'] == $annee_filter) ? 'selected' : '';
+                echo "<option value='" . htmlspecialchars($annee['annee_culturale']) . "' $selected>" . htmlspecialchars($annee['annee_culturale']) . "</option>";
+            }
+            ?>
+        </select>
+        <select name="parcelle">
+            <option value="">Toutes les parcelles</option>
+            <?php
+            $parcelles = $db->query("SELECT DISTINCT nom FROM parcelles ORDER BY nom");
+            while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)) {
+                $selected = ($parcelle['nom'] == $parcelle_filter) ? 'selected' : '';
+                echo "<option value='" . htmlspecialchars($parcelle['nom']) . "' $selected>" . htmlspecialchars($parcelle['nom']) . "</option>";
+            }
+            ?>
+        </select>
+        <input type="submit" value="Filtrer">
+    </form>
+
+    <!-- Affichage du tableau des interventions -->
+    <?php if (empty($interventions)) : ?>
+        <p>Aucune intervention trouvée pour les critères sélectionnés.</p>
+    <?php else : ?>
+        <?php foreach ($interventions as $intervention) : ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="5">
+                            Année culturale: <?= htmlspecialchars($intervention['annee_culturale']) ?> | 
+                            Parcelle: <?= htmlspecialchars($intervention['parcelle_nom']) ?> <br/>
+                            Surface: <?= htmlspecialchars($intervention['surface']) ?> ha |
+                            Culture: <?= htmlspecialchars($intervention['type_culture']) ?>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <th>Produit</th>
+                        <th>AMM</th>
+                        <th>Volume total</th>
+                        <th>Volume par ha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($intervention['interventions'] as $detail) : ?>
+                        <tr>
+                            <td><?php if ($detail['date'] !== $last_date) { echo htmlspecialchars($detail['date']); $last_date = $detail['date'];}  ?></td>
+                            <td><?= htmlspecialchars($detail['produit_nom']) ?></td>
+                            <td><?= htmlspecialchars($detail['produit_amm']) ?></td>
+                            <td><?= htmlspecialchars($detail['volume_total']) ?></td>
+                            <td><?= htmlspecialchars($detail['volume_par_ha']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <div class="intervention-separator"></div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+            <?php if ($i == $page) : ?>
+                <span class="current-page"><?= $i ?></span>
+            <?php else : ?>
+                <a href="?page=<?= $i ?><?= $annee_filter ? '&annee=' . urlencode($annee_filter) : '' ?><?= $parcelle_filter ? '&parcelle=' . urlencode($parcelle_filter) : '' ?>"><?= $i ?></a>
+            <?php endif; ?>
+        <?php endfor; ?>
+    </div>
+
+    <h3>Navigation dans les pages de gestion</h3>
+    <li><a href="interventions_phyto.php">Création des interventions phytosanitaires</a></li>
+    <li><a href="index.php">Retour à l'accueil</a></li>
+</body>
+</html>
