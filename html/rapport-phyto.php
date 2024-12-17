@@ -172,7 +172,7 @@ $total_pages = ceil($total_interventions / $limit);
             <table>
                 <thead>
                     <tr>
-                        <th colspan="5">
+                        <th colspan="6">
                             Année culturale: <?= htmlspecialchars($intervention['annee_culturale']) ?> | 
                             Parcelle: <?= htmlspecialchars($intervention['parcelle_nom']) ?> <br/>
                             Surface: <?= htmlspecialchars($intervention['surface']) ?> ha |
