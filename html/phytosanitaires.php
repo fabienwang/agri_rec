@@ -59,13 +59,19 @@ $produits = $db->query('SELECT * FROM produits_phytosanitaires ORDER BY nom');
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des produits phytosanitaires</title>
     <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
+    <h3> Navigation dans les pages de gestion </h3>
+    <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
+    <br/>
+    <p><a href="index.php">Retour à l'accueil</a></p>
     <h1>Gestion des produits phytosanitaires</h1>
 
-    <h2>Ajouter un produit phytosanitaire</h2>
+    <h3>Ajouter un produit phytosanitaire</h3>
     <form method="post">
         <input type="hidden" name="action" value="create">
         <input type="text" name="nom" placeholder="Nom du produit" required>
@@ -120,10 +126,6 @@ $produits = $db->query('SELECT * FROM produits_phytosanitaires ORDER BY nom');
         document.getElementById('update_amm').value = produit.amm;
     }
     </script>
-    <h3> Navigation dans les pages de gestion </h3>
-    <br/>
-    <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
-    <br/>
-    <p><a href="index.php">Retour à l'accueil</a></p>
+    
 </body>
 </html>

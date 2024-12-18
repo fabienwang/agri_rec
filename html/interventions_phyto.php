@@ -96,8 +96,16 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface
     <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
-    <h2>Gestion des interventions phytosanitaires</h2>
-
+    <h3> Navigation dans les pages de gestion </h3>
+    <br/>
+    <li><a href="parcelles.php">Création des parcelles d'intervention</a></li>
+    <br/>
+    <li><a href="phytosanitaires.php">Création des produits phytosanitaires</a></li>
+    <br/>
+    <li><a href="rapport-phyto.php">Visualisation des interventions phytosanitaires</a></li>
+    <br/>
+    <li><a href="index.php">Retour à l'accueil</a></li>
+    <h1>Gestion des interventions phytosanitaires</h1>
     <h3>Ajouter une intervention</h3>
     <form method="post">
         <input type="hidden" name="action" value="create">
@@ -173,14 +181,5 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface
         </tr>
         <?php endwhile; ?>
     </table>
-    <h3> Navigation dans les pages de gestion </h3>
-    <br/>
-    <li><a href="parcelles.php">Création des parcelles d'intervention</a></li>
-    <br/>
-    <li><a href="phytosanitaires.php">Création des produits phytosanitaires</a></li>
-    <br/>
-    <li><a href="rapport-phyto.php">Visualisation des interventions phytosanitaires</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
 </body>
 </html>

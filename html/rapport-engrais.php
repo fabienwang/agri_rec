@@ -77,6 +77,18 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rapport des interventions phytosanitaires</title>
+        <link rel="stylesheet" href="includes/style.css">
+    </head>
+    <body>
+        <h3> Navigation dans les pages de gestion </h3>
+        <br/>
+        <li><a href="interventions_engrais.php">Création des interventions engrais</a></li>
+        <br/>
+        <li><a href="index.php">Retour à l'accueil</a></li>
+        <br/>
         <h1>Rapport des interventions engrais</h1>
         <!-- Formulaire de tri -->
         <form method="get">
@@ -103,8 +115,6 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             <input type="submit" value="Filtrer">
         </form>
         <link rel="stylesheet" href="includes/style.css">
-    </head>
-    <body>
     <?php if (empty($interventions)) { ?>
     <p>Aucune intervention trouvée pour les critères sélectionnés.</p>
         <?php } else {
@@ -196,10 +206,6 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 };
             };
         }; ?>
-        <h3> Navigation dans les pages de gestion </h3>
-            <br/>
-            <li><a href="interventions_engrais.php">Création des interventions engrais</a></li>
-            <br/>
-            <li><a href="index.php">Retour à l'accueil</a></li>
+
     </body>
 </html>

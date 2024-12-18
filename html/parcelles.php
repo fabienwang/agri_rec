@@ -70,8 +70,17 @@ $parcelles = $db->query('SELECT * FROM parcelles');
     <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
-    <h2>Gestion des parcelles</h2>
-
+    <h3> Navigation dans les pages de gestion </h3>
+    <li><a href="engrais.php">Création / Liste des engrais</a></li>
+    <br/>
+    <li><a href="phytosanitaires.php">Création / Liste des produits phytosanitaires</a></li>
+    <br/>
+    <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
+    <br/>
+    <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
+    <br/>
+    <li><a href="index.php">Retour à l'accueil</a></li>
+    <h1>Gestion des parcelles</h1>
     <!-- Formulaire de création -->
     <h3>Ajouter une parcelle</h3>
     <form method="post">
@@ -130,15 +139,6 @@ $parcelles = $db->query('SELECT * FROM parcelles');
         document.getElementById('update_culture').value = parcelle.culture;
     }
     </script>
-    <h3> Navigation dans les pages de gestion </h3>
-    <li><a href="engrais.php">Création / Liste des engrais</a></li>
-    <br/>
-    <li><a href="phytosanitaires.php">Création / Liste des produits phytosanitaires</a></li>
-    <br/>
-    <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
-    <br/>
-    <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
+    
 </body>
 </html>

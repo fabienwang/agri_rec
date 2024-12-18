@@ -66,7 +66,8 @@ $engrais = $db->query('SELECT * FROM engrais');
 $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrais_nom, e.unite as engrais_unite
                              FROM interventions_engrais ie 
                              JOIN parcelles p ON ie.parcelle_id = p.id 
-                             JOIN engrais e ON ie.engrais_id = e.id');
+                             JOIN engrais e ON ie.engrais_id = e.id
+                             ORDER BY ie.date, p.nom');
 
 ?>
 
@@ -107,22 +108,23 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
     <h3>Liste des interventions</h3>
     <table>
         <tr>
+            <th>Année culturale</th>
             <th>Date</th>
             <th>Parcelle</th>
             <th>Engrais</th>
             <th>Unité</th>
             <th>Quantité</th>
-            <th>Année culturale</th>
             <th>Actions</th>
         </tr>
         <?php while ($intervention = $interventions->fetchArray(SQLITE3_ASSOC)): ?>
         <tr>
+            <td><?php echo htmlspecialchars($intervention['annee_culturale']); ?></td>
             <td><?php echo htmlspecialchars($intervention['date']); ?></td>
             <td><?php echo htmlspecialchars($intervention['parcelle_nom']); ?></td>
             <td><?php echo htmlspecialchars($intervention['engrais_nom']); ?></td>
             <td><?php echo htmlspecialchars($intervention['engrais_unite']); ?></td>
             <td><?php echo htmlspecialchars($intervention['quantite']); ?></td>
-            <td><?php echo htmlspecialchars($intervention['annee_culturale']); ?></td>
+
             <td>
                 <form method="post" style="display:inline;">
                     <input type="hidden" name="action" value="delete">

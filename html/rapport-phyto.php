@@ -137,8 +137,13 @@ $total_pages = ceil($total_interventions / $limit);
     <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
+    <h3>Navigation dans les pages de gestion</h3>
+    <br/>
+    <li><a href="interventions_phyto.php">Création des interventions phytosanitaires</a></li>
+    <br/>
+    <li><a href="index.php">Retour à l'accueil</a></li>
     <h1>Rapport des interventions phytosanitaires</h1>
-    
+    <br/>
     <!-- Formulaire de tri -->
     <form method="get">
         <select name="annee">
@@ -216,10 +221,5 @@ $total_pages = ceil($total_interventions / $limit);
         <?php endfor; ?>
     </div>
 
-    <h3>Navigation dans les pages de gestion</h3>
-    <br/>
-    <li><a href="interventions_phyto.php">Création des interventions phytosanitaires</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
 </body>
 </html>
