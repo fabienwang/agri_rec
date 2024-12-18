@@ -79,11 +79,19 @@ $engrais = $db->query('SELECT * FROM engrais');
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des engrais</title>
     <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
-    <h2>Gestion des engrais</h2>
+ 
+<h3> Navigation dans les pages de gestion </h3>
+    <br/>
+    <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
+    <br/>
+    <li><a href="index.php">Retour à l'accueil</a></li>
+    <h1>Gestion des engrais</h1>
 
     <h3>Ajouter un engrais</h3>
     <form method="post">
@@ -165,10 +173,6 @@ $engrais = $db->query('SELECT * FROM engrais');
         document.getElementById('update_CaO').value = engrais.CaO;
     }
     </script>
-    <h3> Navigation dans les pages de gestion </h3>
-    <br/>
-    <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
+    
 </body>
 </html>

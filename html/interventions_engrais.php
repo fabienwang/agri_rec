@@ -74,11 +74,23 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="includes/style.css">
-    <title>Gestion des interventions d'engrais</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des interventions phytosanitaires</title>
+    <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
-    <h2>Gestion des interventions d'engrais</h2>
+    <h3> Navigation dans les pages de gestion </h3>
+    <br/>
+    <li><a href="engrais.php">Création des engrais</a></li>
+    <br/>
+    <li><a href="parcelles.php">Création des parcelles</a></li>
+    <br/>
+    <li><a href="rapport-engrais.php">Visualisation des interventions engrais</a></li>
+    <br/>
+    <li><a href="index.php">Retour à l'accueil</a></li>
+
+    <h1>Gestion des interventions d'engrais</h1>
 
     <h3>Ajouter une intervention</h3>
     <form method="post">
@@ -176,14 +188,6 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
         document.getElementById('update_annee_culturale').value = intervention.annee_culturale;
     }
     </script>
-    <h3> Navigation dans les pages de gestion </h3>
-    <br/>
-    <li><a href="engrais.php">Création des engrais</a></li>
-    <br/>
-    <li><a href="parcelles.php">Création des parcelles</a></li>
-    <br/>
-    <li><a href="rapport-engrais.php">Visualisation des interventions engrais</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
+    
 </body>
 </html>
