@@ -17,7 +17,7 @@ $parcelle_filter = isset($_GET['parcelle']) ? $_GET['parcelle'] : null;
 $query = "
     SELECT 
         ie.id AS intervention_id,
-        ie.date,
+        STRFTIME('%d/%m/%Y', ie.date) AS date,
         ie.annee_culturale,
         p.nom AS parcelle_nom,
         p.culture AS type_culture,
@@ -38,7 +38,6 @@ $query = "
         parcelles p ON ie.parcelle_id = p.id
     JOIN 
         engrais e ON ie.engrais_id = e.id
-    WHERE 1=1
     " . ($annee_filter ? "AND ie.annee_culturale = :annee_culturale " : "") . "
     " . ($parcelle_filter ? "AND p.nom = :parcelle_nom " : "") . "
     ORDER BY 
