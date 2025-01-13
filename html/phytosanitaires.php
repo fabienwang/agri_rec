@@ -57,7 +57,7 @@ $produits = $db->query('SELECT * FROM produits_phytosanitaires ORDER BY nom');
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,7 +66,10 @@ $produits = $db->query('SELECT * FROM produits_phytosanitaires ORDER BY nom');
 </head>
 <body>
     <h3> Navigation dans les pages de gestion </h3>
-    <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
+
+    <ul>
+        <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
+    </ul>
     <br/>
     <p><a href="index.php">Retour à l'accueil</a></p>
     <h1>Gestion des produits phytosanitaires</h1>

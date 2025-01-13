@@ -1,5 +1,6 @@
 li {
   list-style-type: none;
+  margin-bottom: 1rem;
 }
 table {
   border-collapse: collapse;
@@ -27,10 +28,11 @@ tfoot {
   height: 10px;
   background-color: #ffffff;
 }
-a#logout {
-position: absolute;
-right: 40px;
-top: 10px;
+form#logout {
+  display:inline;
+  position: absolute;
+  right: 40px;
+  top: 10px;
 }
 tbody tr:nth-child(odd) {
   background-color: #cccccc;

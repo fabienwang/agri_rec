@@ -92,7 +92,7 @@ exit;
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <title>Création du couple utilisateur / mot de passe</title>
 </head>
