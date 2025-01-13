@@ -72,7 +72,7 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,14 +81,12 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
 </head>
 <body>
     <h3> Navigation dans les pages de gestion </h3>
-    <br/>
-    <li><a href="engrais.php">Création des engrais</a></li>
-    <br/>
-    <li><a href="parcelles.php">Création des parcelles</a></li>
-    <br/>
-    <li><a href="rapport-engrais.php">Visualisation des interventions engrais</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
+    <ul>
+        <li><a href="engrais.php">Création des engrais</a></li>
+        <li><a href="parcelles.php">Création des parcelles</a></li>
+        <li><a href="rapport-engrais.php">Visualisation des interventions engrais</a></li>
+        <li><a href="index.php">Retour à l'accueil</a></li>
+    </ul>
 
     <h1>Gestion des interventions d'engrais</h1>
 
@@ -96,6 +94,7 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
     <form method="post">
         <input type="hidden" name="action" value="create">
         <select name="parcelle_id" required>
+            <option value="" disabled selected hidden>Choisir une parcelle</option>
             <?php 
             $parcelles->reset();
             while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)): 
@@ -104,6 +103,7 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
             <?php endwhile; ?>
         </select>
         <select name="engrais_id" required>
+            <option value="" disabled selected hidden>Choisir un engrais</option>
             <?php 
             $engrais->reset();
             while ($eng = $engrais->fetchArray(SQLITE3_ASSOC)): 

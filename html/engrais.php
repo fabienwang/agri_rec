@@ -77,7 +77,7 @@ $engrais = $db->query('SELECT * FROM engrais');
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,11 +86,12 @@ $engrais = $db->query('SELECT * FROM engrais');
 </head>
 <body>
  
-<h3> Navigation dans les pages de gestion </h3>
-    <br/>
-    <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
+    <h3> Navigation dans les pages de gestion </h3>
+    <ul>
+        <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
+        <li><a href="index.php">Retour à l'accueil</a></li>
+    </ul>
+
     <h1>Gestion des engrais</h1>
 
     <h3>Ajouter un engrais</h3>
@@ -108,7 +109,7 @@ $engrais = $db->query('SELECT * FROM engrais');
     </form>
 
     <h3>Liste des engrais</h3>
-    <table border="1">
+    <table>
         <tr>
             <th>Nom</th>
             <th>Unité</th>

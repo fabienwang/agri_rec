@@ -72,7 +72,7 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <title>Gestion des interventions phytosanitaires</title>
     <script>

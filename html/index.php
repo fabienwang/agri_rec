@@ -18,28 +18,22 @@ if (!isset($_SESSION['user_id'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <title>Tableau de bord</title>
     <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
     <h1>Bienvenue dans l'application</h1>
-    <a id="logout" href="logout.php"> <button> Se déconnecter </button></a>
-    <nav>
+    <form id="logout" style="display:inline" action="logout.php" method="get"><button> Se déconnecter </button></form>
+    <ul>
         <li><a href="parcelles.php">Gestion des parcelles</a></li>
-        <br/>
         <li><a href="engrais.php">Gestion des engrais</a></li>
-        <br/>
         <li><a href="phytosanitaires.php">Gestion des produits phytosanitaires</a></li>
-        <br/>
         <li><a href="interventions_engrais.php">Application d'engrais</a></li>
-        <br/>
         <li><a href="interventions_phyto.php">Application phytosanitaires</a></li>
-        <br/>
         <li><a href="rapport-phyto.php">Rapport des interventions phytosanitaires</a></li>
-        <br/>
         <li><a href="rapport-engrais.php">Rapport des interventions engrais</a></li>
-    </nav>
+    </ul>
 </body>
 </html>

@@ -64,7 +64,7 @@ $parcelles = $db->query('SELECT * FROM parcelles');
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,15 +73,13 @@ $parcelles = $db->query('SELECT * FROM parcelles');
 </head>
 <body>
     <h3> Navigation dans les pages de gestion </h3>
-    <li><a href="engrais.php">Création / Liste des engrais</a></li>
-    <br/>
-    <li><a href="phytosanitaires.php">Création / Liste des produits phytosanitaires</a></li>
-    <br/>
-    <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
-    <br/>
-    <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
+    <ul>
+        <li><a href="engrais.php">Création / Liste des engrais</a></li>
+        <li><a href="phytosanitaires.php">Création / Liste des produits phytosanitaires</a></li>
+        <li><a href="interventions_phyto.php">Création d'une intervention phytosanitaire</a></li>
+        <li><a href="interventions_engrais.php">Création d'une intervention engrais</a></li>
+        <li><a href="index.php">Retour à l'accueil</a></li>
+    </ul>
     <h1>Gestion des parcelles</h1>
     <!-- Formulaire de création -->
     <h3>Ajouter une parcelle</h3>
