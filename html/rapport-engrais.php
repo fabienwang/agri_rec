@@ -76,18 +76,17 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Rapport des interventions phytosanitaires</title>
-        <link rel="stylesheet" href="includes/style.css">
+        <link rel="stylesheet" href="includes/style.css" />
     </head>
     <body>
         <h3> Navigation dans les pages de gestion </h3>
-        <br/>
-        <li><a href="interventions_engrais.php">Création des interventions engrais</a></li>
-        <br/>
-        <li><a href="index.php">Retour à l'accueil</a></li>
-        <br/>
+        <ul>
+            <li><a href="interventions_engrais.php">Création des interventions engrais</a></li>
+            <li><a href="index.php">Retour à l'accueil</a></li>
+        </ul>
         <h1>Rapport des interventions engrais</h1>
         <!-- Formulaire de tri -->
         <form method="get">
@@ -113,9 +112,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             </select>
             <input type="submit" value="Filtrer">
         </form>
-        <link rel="stylesheet" href="includes/style.css">
-    <?php if (empty($interventions)) { ?>
-    <p>Aucune intervention trouvée pour les critères sélectionnés.</p>
+
+        <?php if (empty($interventions)) { ?>
+        <p>Aucune intervention trouvée pour les critères sélectionnés.</p>
         <?php } else {
             $current_parcelle = '';
             $current_annee = '';
@@ -159,7 +158,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             Surface : <?php echo htmlspecialchars($intervention['parcelle_surface']); ?> |
                             Culture : <?php echo htmlspecialchars($intervention['type_culture']); ?>
                             </th>
-
+                            <th colspan="10" class="emptyth"></th>
                         </tr>
                         <tr>
                             <th>Date</th>

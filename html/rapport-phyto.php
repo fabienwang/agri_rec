@@ -131,19 +131,19 @@ $total_pages = ceil($total_interventions / $limit);
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rapport des interventions phytosanitaires</title>
-    <link rel="stylesheet" href="includes/style.css">
+    <link rel="stylesheet" href="includes/style.css" />
 </head>
 <body>
     <h3>Navigation dans les pages de gestion</h3>
-    <br/>
-    <li><a href="interventions_phyto.php">Création des interventions phytosanitaires</a></li>
-    <br/>
-    <li><a href="index.php">Retour à l'accueil</a></li>
+    <ul>
+        <li><a href="interventions_phyto.php">Création des interventions phytosanitaires</a></li>
+        <li><a href="index.php">Retour à l'accueil</a></li>
+    </ul>
     <h1>Rapport des interventions phytosanitaires</h1>
-    <br/>
+    <br>
     <!-- Formulaire de tri -->
     <form method="get">
         <select name="annee">
