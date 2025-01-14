@@ -25,13 +25,15 @@ $query = "
         STRFTIME('%d/%m/%Y', ip.date) AS date,
         ip.annee_culturale,
         p.nom AS parcelle_nom,
+        p.ilot AS parcelle_ilot,
         p.culture AS type_culture,
         p.surface,
         pp.nom AS produit_nom,
         pp.unite_emballage AS produit_unite,
         pp.amm AS produit_amm,
         dip.volume_total,
-        round((dip.volume_total / p.surface), 2) AS volume_par_ha
+        round((dip.volume_total / p.surface), 2) AS volume_par_ha,
+        dip.cible AS cible
     FROM 
         interventions_phytosanitaires ip
     JOIN 
@@ -40,7 +42,6 @@ $query = "
         details_interventions_phytosanitaires dip ON ip.id = dip.intervention_id
     JOIN 
         produits_phytosanitaires pp ON dip.produit_id = pp.id
-    WHERE 1=1
 ";
 
 $params = [];
@@ -83,6 +84,7 @@ try {
             $interventions[$key] = [
                 'annee_culturale' => $row['annee_culturale'],
                 'parcelle_nom' => $row['parcelle_nom'],
+                'parcelle_ilot' => $row['parcelle_ilot'],
                 'surface' => $row['surface'],
                 'type_culture' => $row['type_culture'],
                 'interventions' => []
@@ -96,6 +98,7 @@ try {
             'produit_amm' => $row['produit_amm'],
             'volume_total' => $row['volume_total'],
             'volume_par_ha' => $row['volume_par_ha']
+            'cible' => $row['cible']
         ];
     }
 
@@ -179,9 +182,10 @@ $total_pages = ceil($total_interventions / $limit);
                     <tr>
                         <th colspan="6">
                             Année culturale: <?= htmlspecialchars($intervention['annee_culturale']) ?> | 
-                            Parcelle: <?= htmlspecialchars($intervention['parcelle_nom']) ?> <br/>
-                            Surface: <?= htmlspecialchars($intervention['surface']) ?> ha |
-                            Culture: <?= htmlspecialchars($intervention['type_culture']) ?>
+                            Parcelle : <?= htmlspecialchars($intervention['parcelle_nom']) ?> <br/>
+                            Ilot :<?= htmlspecialchars($intervention['parcelle_ilot']) ?> <br/>
+                            Surface : <?= htmlspecialchars($intervention['surface']) ?> ha |
+                            Culture : <?= htmlspecialchars($intervention['type_culture']) ?>
                         </th>
                     </tr>
                     <tr>
@@ -191,6 +195,7 @@ $total_pages = ceil($total_interventions / $limit);
                         <th>AMM</th>
                         <th>Volume total</th>
                         <th>Volume par ha</th>
+                        <th>Cible</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -202,6 +207,7 @@ $total_pages = ceil($total_interventions / $limit);
                             <td><?= htmlspecialchars($detail['produit_amm']) ?></td>
                             <td><?= htmlspecialchars($detail['volume_total']) ?></td>
                             <td><?= htmlspecialchars($detail['volume_par_ha']) ?></td>
+                            <td><?= htmlspecialchars($detail['cible']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
