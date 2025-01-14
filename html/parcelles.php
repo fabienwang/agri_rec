@@ -23,11 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         switch ($_POST['action']) {
             case 'create':
                 $nom = clean_input($_POST['nom']);
+                $ilot = intval($_POST['ilot']);
                 $surface = floatval($_POST['surface']);
                 $culture = clean_input($_POST['culture']);
                 
-                $stmt = $db->prepare('INSERT INTO parcelles (nom, surface, culture) VALUES (:nom, :surface, :culture)');
+                $stmt = $db->prepare('INSERT INTO parcelles (nom, surface, culture) VALUES (:nom, :ilot, :surface, :culture)');
                 $stmt->bindValue(':nom', $nom, SQLITE3_TEXT);
+                $stmt->bindValue(':ilot', $ilot, SQLITE3_INTEGER);
                 $stmt->bindValue(':surface', $surface, SQLITE3_FLOAT);
                 $stmt->bindValue(':culture', $culture, SQLITE3_TEXT);
                 $stmt->execute();
@@ -36,12 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'update':
                 $id = intval($_POST['id']);
                 $nom = clean_input($_POST['nom']);
+                $ilot = intval($_POST['ilot']);
                 $surface = floatval($_POST['surface']);
                 $culture = clean_input($_POST['culture']);
                 
-                $stmt = $db->prepare('UPDATE parcelles SET nom = :nom, surface = :surface, culture = :culture WHERE id = :id');
+                $stmt = $db->prepare('UPDATE parcelles SET nom = :nom, ilot = :ilot, surface = :surface, culture = :culture WHERE id = :id');
                 $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
                 $stmt->bindValue(':nom', $nom, SQLITE3_TEXT);
+                $stmt->bindValue(':ilot', $ilot, SQLITE3_INTEGER);
                 $stmt->bindValue(':surface', $surface, SQLITE3_FLOAT);
                 $stmt->bindValue(':culture', $culture, SQLITE3_TEXT);
                 $stmt->execute();
@@ -86,6 +90,7 @@ $parcelles = $db->query('SELECT * FROM parcelles');
     <form method="post">
         <input type="hidden" name="action" value="create">
         <input type="text" name="nom" placeholder="Nom de la parcelle" required>
+        <input type="number" name="ilot" step="1" placeholder="Ilot" required>
         <input type="number" name="surface" step="0.01" placeholder="Surface" required>
         <input type="text" name="culture" placeholder="Type de culture" required>
         <input type="submit" value="Ajouter">
@@ -96,6 +101,7 @@ $parcelles = $db->query('SELECT * FROM parcelles');
     <table>
         <tr>
             <th>Nom</th>
+            <th>Ilot</th>
             <th>Surface</th>
             <th>Culture</th>
             <th>Actions</th>
@@ -103,6 +109,7 @@ $parcelles = $db->query('SELECT * FROM parcelles');
         <?php while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)): ?>
         <tr>
             <td><?php echo htmlspecialchars($parcelle['nom']); ?></td>
+            <td><?php echo htmlspecialchars($parcelle['ilot']); ?></td>
             <td><?php echo htmlspecialchars($parcelle['surface']); ?></td>
             <td><?php echo htmlspecialchars($parcelle['culture']); ?></td>
             <td>
@@ -124,6 +131,7 @@ $parcelles = $db->query('SELECT * FROM parcelles');
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="id" id="update_id">
             <input type="text" name="nom" id="update_nom" required>
+            <input type="number" name="ilot" id="update_ilot" step="1" required>
             <input type="number" name="surface" id="update_surface" step="0.01" required>
             <input type="text" name="culture" id="update_culture" required>
             <input type="submit" value="Modifier">
@@ -135,6 +143,7 @@ $parcelles = $db->query('SELECT * FROM parcelles');
         document.getElementById('updateForm').style.display = 'block';
         document.getElementById('update_id').value = parcelle.id;
         document.getElementById('update_nom').value = parcelle.nom;
+        document.getElementById('update_ilot').value = parcelle.ilot;
         document.getElementById('update_surface').value = parcelle.surface;
         document.getElementById('update_culture').value = parcelle.culture;
     }
