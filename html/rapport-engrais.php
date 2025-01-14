@@ -20,6 +20,7 @@ $query = "
         STRFTIME('%d/%m/%Y', ie.date) AS date,
         ie.annee_culturale,
         p.nom AS parcelle_nom,
+        p.ilot AS parcelle_ilot,
         p.culture AS type_culture,
         p.surface AS parcelle_surface,
         e.nom AS engrais_nom,
@@ -155,6 +156,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             <th>
                             Année culturale : <?php echo htmlspecialchars($intervention['annee_culturale']); ?> |
                             Parcelle : <?php echo htmlspecialchars($intervention['parcelle_nom']); ?> <br/>
+                            Ilot : <?php echo htmlspecialchars($intervention['parcelle_ilot']); ?> <br/>
                             Surface : <?php echo htmlspecialchars($intervention['parcelle_surface']); ?> |
                             Culture : <?php echo htmlspecialchars($intervention['type_culture']); ?>
                             </th>
