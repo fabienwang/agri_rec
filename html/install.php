@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db->exec("CREATE TABLE IF NOT EXISTS parcelles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nom TEXT NOT NULL,
+        ilot INTEGER NOT NULL,
         surface REAL NOT NULL,
         culture TEXT NOT NULL
     )");
@@ -70,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         intervention_id INTEGER,
         produit_id INTEGER,
         volume_total REAL NOT NULL,
+        cible TEXT NOT NULL,
         FOREIGN KEY (intervention_id) REFERENCES interventions_phytosanitaires(id),
         FOREIGN KEY (produit_id) REFERENCES produits_phytosanitaires(id)
     )");
