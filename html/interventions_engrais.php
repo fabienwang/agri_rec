@@ -62,7 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $parcelles = $db->query('SELECT * FROM parcelles');
+
 $engrais = $db->query('SELECT * FROM engrais');
+
 $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrais_nom, e.unite as engrais_unite
                              FROM interventions_engrais ie 
                              JOIN parcelles p ON ie.parcelle_id = p.id 
@@ -94,18 +96,16 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
     <form method="post">
         <input type="hidden" name="action" value="create">
         <select name="parcelle_id" required>
-            <option value="" disabled selected hidden>Choisir une parcelle</option>
+            <option value="" disabled selected>Choisir une parcelle</option>
             <?php 
-            $parcelles->reset();
             while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)): 
             ?>
                 <option value="<?php echo $parcelle['id']; ?>"><?php echo $parcelle['nom']; ?></option>
             <?php endwhile; ?>
         </select>
         <select name="engrais_id" required>
-            <option value="" disabled selected hidden>Choisir un engrais</option>
+            <option value="" disabled selected>Choisir un engrais</option>
             <?php 
-            $engrais->reset();
             while ($eng = $engrais->fetchArray(SQLITE3_ASSOC)): 
             ?>
                 <option value="<?php echo $eng['id']; ?>"><?php echo $eng['nom']; ?></option>
@@ -155,6 +155,7 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="id" id="update_id">
             <select name="parcelle_id" id="update_parcelle_id" required>
+                <option value="" disabled selected>Choisir une parcelle</option>
                 <?php 
                 $parcelles->reset();
                 while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)): 
@@ -163,6 +164,7 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
                 <?php endwhile; ?>
             </select>
             <select name="engrais_id" id="update_engrais_id" required>
+                <option value="" disabled selected>Choisir une engrais</option>
                 <?php 
                 $engrais->reset();
                 while ($eng = $engrais->fetchArray(SQLITE3_ASSOC)): 
