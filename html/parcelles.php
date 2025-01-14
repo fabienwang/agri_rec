@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $ilot = intval($_POST['ilot']);
                 $surface = floatval($_POST['surface']);
                 $culture = clean_input($_POST['culture']);
-                
-                $stmt = $db->prepare('INSERT INTO parcelles (nom, surface, culture) VALUES (:nom, :ilot, :surface, :culture)');
+
+                $stmt = $db->prepare('INSERT INTO parcelles (nom, ilot, surface, culture) VALUES (:nom, :ilot, :surface, :culture)');
                 $stmt->bindValue(':nom', $nom, SQLITE3_TEXT);
                 $stmt->bindValue(':ilot', $ilot, SQLITE3_INTEGER);
                 $stmt->bindValue(':surface', $surface, SQLITE3_FLOAT);

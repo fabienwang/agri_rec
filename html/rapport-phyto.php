@@ -20,7 +20,7 @@ $offset = ($page - 1) * $limit;
 
 // Requête SQL avec filtres et pagination
 $query = "
-    SELECT 
+    SELECT
         ip.id AS intervention_id,
         STRFTIME('%d/%m/%Y', ip.date) AS date,
         ip.annee_culturale,
@@ -34,13 +34,13 @@ $query = "
         dip.volume_total,
         round((dip.volume_total / p.surface), 2) AS volume_par_ha,
         dip.cible AS cible
-    FROM 
+    FROM
         interventions_phytosanitaires ip
-    JOIN 
+    JOIN
         parcelles p ON ip.parcelle_id = p.id
-    JOIN 
+    JOIN
         details_interventions_phytosanitaires dip ON ip.id = dip.intervention_id
-    JOIN 
+    JOIN
         produits_phytosanitaires pp ON dip.produit_id = pp.id
 ";
 
@@ -90,14 +90,14 @@ try {
                 'interventions' => []
             ];
         }
-        
+
         $interventions[$key]['interventions'][] = [
             'date' => $row['date'],
             'produit_nom' => $row['produit_nom'],
             'produit_unite' => $row['produit_unite'],
             'produit_amm' => $row['produit_amm'],
             'volume_total' => $row['volume_total'],
-            'volume_par_ha' => $row['volume_par_ha']
+            'volume_par_ha' => $row['volume_par_ha'],
             'cible' => $row['cible']
         ];
     }
@@ -180,10 +180,10 @@ $total_pages = ceil($total_interventions / $limit);
             <table>
                 <thead>
                     <tr>
-                        <th colspan="6">
+                        <th colspan="7">
                             Année culturale: <?= htmlspecialchars($intervention['annee_culturale']) ?> | 
                             Parcelle : <?= htmlspecialchars($intervention['parcelle_nom']) ?> <br/>
-                            Ilot :<?= htmlspecialchars($intervention['parcelle_ilot']) ?> <br/>
+                            Ilot : <?= htmlspecialchars($intervention['parcelle_ilot']) ?> <br/>
                             Surface : <?= htmlspecialchars($intervention['surface']) ?> ha |
                             Culture : <?= htmlspecialchars($intervention['type_culture']) ?>
                         </th>
