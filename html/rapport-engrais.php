@@ -32,9 +32,11 @@ $query = "
         round((ie.quantite * e.K2O / p.surface), 2) AS total_K2O,
         round((ie.quantite * e.SO3 / p.surface), 2) AS total_SO3,
         round((ie.quantite * e.MgO / p.surface), 2) AS total_MgO,
-        round((ie.quantite * e.CaO / p.surface), 2) AS total_CaO
+        round((ie.quantite * e.CaO / p.surface), 2) AS total_CaO,
+        u.username,
+        u.telepac
     FROM 
-        interventions_engrais ie
+        interventions_engrais ie, users u
     JOIN 
         parcelles p ON ie.parcelle_id = p.id
     JOIN 
@@ -89,6 +91,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             <li><a href="index.php">Retour à l'accueil</a></li>
         </ul>
         <h1>Rapport des interventions engrais</h1>
+        <h2><?php echo $interventions[0]['username']; ?> - Telepac: <?php echo $interventions[0]['telepac']; ?></h2>
         <!-- Formulaire de tri -->
         <form method="get">
             <select name="annee">
