@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db->exec("CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE NOT NULL,
+        telepac INTEGER NOT NULL,
         password TEXT NOT NULL
     )");
 
@@ -77,10 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     )");
 
     $username = htmlspecialchars(stripslashes(trim($_POST['username'])));
+    $telepac = htmlspecialchars(stripslashes(trim($_POST['telepac'])));
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-$stmt = $db->prepare('INSERT OR IGNORE INTO users (username, password) VALUES (:username, :password)');
+$stmt = $db->prepare('INSERT OR IGNORE INTO users (username, telepac, password) VALUES (:username, :telepac, :password)');
 $stmt->bindValue(':username', $username, SQLITE3_TEXT);
+$stmt->bindValue(':telepac', $telepac, SQLITE3_TEXT);
 $stmt->bindValue(':password', $password, SQLITE3_TEXT);
 $stmt->execute();
 
@@ -100,10 +103,12 @@ exit;
 </head>
 <body>
     <h1>Bienvenue dans l'installation</h1>
-    <h2>Création du couple utilisateur / mot de passe</h2>
+    <h2>Création du couple utilisateur / mot de passe et saisie du code telepac</h2>
     <?php if (isset($error)) echo "<p>$error</p>"; ?>
     <form method="post">
         <input type="text" name="username" placeholder="Nom d'utilisateur" required><br>
+        <br/>
+        <input type="text" name="telepac" placeholder="Code telepac" required><br>
         <br/>
         <input type="password" name="password" placeholder="Mot de passe" required><br>
         <br/>
