@@ -93,7 +93,7 @@ $produits = $db->query('SELECT * FROM produits_phytosanitaires ORDER BY nom');
         </tr>
         <?php while ($produit = $produits->fetchArray(SQLITE3_ASSOC)): ?>
         <tr>
-            <td><?php echo htmlspecialchars($produit['nom']); ?></td>
+            <td><?php echo htmlspecialchars_decode($produit['nom']); ?></td>
             <td><?php echo htmlspecialchars($produit['unite_emballage']); ?></td>
             <td><?php echo htmlspecialchars($produit['amm']); ?></td>
             <td>
@@ -119,12 +119,13 @@ $produits = $db->query('SELECT * FROM produits_phytosanitaires ORDER BY nom');
             <input type="submit" value="Modifier">
         </form>
     </div>
-
+    
+    <script src="includes/functions.js"></script>
     <script>
     function showUpdateForm(produit) {
         document.getElementById('updateForm').style.display = 'block';
         document.getElementById('update_id').value = produit.id;
-        document.getElementById('update_nom').value = produit.nom;
+        document.getElementById('update_nom').value = htmlSpecialCharsDecode(produit.nom);
         document.getElementById('update_unite_emballage').value = produit.unite_emballage;
         document.getElementById('update_amm').value = produit.amm;
     }

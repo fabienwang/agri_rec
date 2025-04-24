@@ -132,8 +132,8 @@ $interventions = $db->query('SELECT ie.*, p.nom as parcelle_nom, e.nom as engrai
         <tr>
             <td><?php echo htmlspecialchars($intervention['annee_culturale']); ?></td>
             <td><?php echo htmlspecialchars($intervention['date']); ?></td>
-            <td><?php echo htmlspecialchars($intervention['parcelle_nom']); ?></td>
-            <td><?php echo htmlspecialchars($intervention['engrais_nom']); ?></td>
+            <td><?php echo htmlspecialchars_decode($intervention['parcelle_nom']); ?></td>
+            <td><?php echo htmlspecialchars_decode($intervention['engrais_nom']); ?></td>
             <td><?php echo htmlspecialchars($intervention['engrais_unite']); ?></td>
             <td><?php echo htmlspecialchars($intervention['quantite']); ?></td>
 

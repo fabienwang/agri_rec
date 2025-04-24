@@ -108,10 +108,10 @@ $parcelles = $db->query('SELECT * FROM parcelles');
         </tr>
         <?php while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)): ?>
         <tr>
-            <td><?php echo htmlspecialchars($parcelle['nom']); ?></td>
+            <td><?php echo htmlspecialchars_decode($parcelle['nom']); ?></td>
             <td><?php echo htmlspecialchars($parcelle['ilot']); ?></td>
             <td><?php echo htmlspecialchars($parcelle['surface']); ?></td>
-            <td><?php echo htmlspecialchars($parcelle['culture']); ?></td>
+            <td><?php echo htmlspecialchars_decode($parcelle['culture']); ?></td>
             <td>
                 <form method="post" style="display:inline;">
                     <input type="hidden" name="action" value="delete">
@@ -138,14 +138,15 @@ $parcelles = $db->query('SELECT * FROM parcelles');
         </form>
     </div>
 
+    <script src="includes/functions.js"></script>
     <script>
     function showUpdateForm(parcelle) {
         document.getElementById('updateForm').style.display = 'block';
         document.getElementById('update_id').value = parcelle.id;
-        document.getElementById('update_nom').value = parcelle.nom;
+        document.getElementById('update_nom').value = htmlSpecialCharsDecode(parcelle.nom);
         document.getElementById('update_ilot').value = parcelle.ilot;
         document.getElementById('update_surface').value = parcelle.surface;
-        document.getElementById('update_culture').value = parcelle.culture;
+        document.getElementById('update_culture').value = htmlSpecialCharsDecode(parcelle.culture);
     }
     </script>
     

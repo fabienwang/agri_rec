@@ -123,7 +123,7 @@ $engrais = $db->query('SELECT * FROM engrais');
         </tr>
         <?php while ($engrais_item = $engrais->fetchArray(SQLITE3_ASSOC)): ?>
         <tr>
-            <td><?php echo htmlspecialchars($engrais_item['nom']); ?></td>
+            <td><?php echo htmlspecialchars_decode($engrais_item['nom']); ?></td>
             <td><?php echo htmlspecialchars($engrais_item['unite']); ?></td>
             <td><?php echo htmlspecialchars($engrais_item['NO3']); ?></td>
             <td><?php echo htmlspecialchars($engrais_item['P2O5']); ?></td>
@@ -160,11 +160,12 @@ $engrais = $db->query('SELECT * FROM engrais');
         </form>
     </div>
 
+    <script src="includes/functions.js"></script>
     <script>
     function showUpdateForm(engrais) {
         document.getElementById('updateForm').style.display = 'block';
         document.getElementById('update_id').value = engrais.id;
-        document.getElementById('update_nom').value = engrais.nom;
+        document.getElementById('update_nom').value = htmlSpecialCharsDecode(engrais.nom);
         document.getElementById('update_unite').value = engrais.unite;
         document.getElementById('update_NO3').value = engrais.NO3;
         document.getElementById('update_P2O5').value = engrais.P2O5;
