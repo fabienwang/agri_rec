@@ -159,7 +159,7 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface, p.il
         <?php while ($intervention = $interventions->fetchArray(SQLITE3_ASSOC)): ?>
         <tr>
             <td><?php echo htmlspecialchars($intervention['date']); ?></td>
-            <td><?php echo htmlspecialchars($intervention['parcelle_nom']); ?></td>
+            <td><?php echo htmlspecialchars_decode($intervention['parcelle_nom']); ?></td>
             <td><?php echo htmlspecialchars($intervention['parcelle_ilot']); ?></td>
             <td><?php echo htmlspecialchars($intervention['annee_culturale']); ?></td>
             <td>
@@ -169,12 +169,12 @@ $interventions = $db->query('SELECT ip.*, p.nom as parcelle_nom, p.surface, p.il
                                        JOIN produits_phytosanitaires pp ON dip.produit_id = pp.id
                                        WHERE dip.intervention_id = ' . $intervention['id']);
                 while ($detail = $details->fetchArray(SQLITE3_ASSOC)) {
-                    echo htmlspecialchars($detail['produit_nom']) . ' : ' .
+                    echo htmlspecialchars_decode($detail['produit_nom']) . ' : ' .
                          htmlspecialchars($detail['volume_total']) . ' ' .
                          htmlspecialchars($detail['produit_unite']) . ' Volume sur la parcelle | ' .
                          htmlspecialchars($detail['volume_total'] / $intervention['surface']) . ' ' .
                          htmlspecialchars($detail['produit_unite']) . '/ha, cible : ' .
-                         htmlspecialchars($detail['cible']) . ' <br>';
+                         htmlspecialchars_decode($detail['cible']) . ' <br>';
                 }
                 ?>
             </td>

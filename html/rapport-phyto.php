@@ -11,7 +11,7 @@ $db = getDB();
 
 // Validation stricte des entrées utilisateur
 $annee_filter = isset($_GET['annee']) && ctype_digit($_GET['annee']) ? $_GET['annee'] : null;
-$parcelle_filter = isset($_GET['parcelle']) ? htmlspecialchars($_GET['parcelle'], ENT_QUOTES, 'UTF-8') : null;
+$parcelle_filter = isset($_GET['parcelle']) ? $_GET['parcelle'] : null;
 
 // Pagination
 $limit = 20; // Nombre d'interventions par page
@@ -24,6 +24,7 @@ $query = "
         ip.id AS intervention_id,
         STRFTIME('%d/%m/%Y', ip.date) AS date,
         ip.annee_culturale,
+        p.id AS parcelle_id,
         p.nom AS parcelle_nom,
         p.ilot AS parcelle_ilot,
         p.culture AS type_culture,
@@ -52,8 +53,8 @@ if ($annee_filter) {
     $params[':annee_culturale'] = $annee_filter;
 }
 if ($parcelle_filter) {
-    $query .= " AND p.nom = :parcelle_nom";
-    $params[':parcelle_nom'] = $parcelle_filter;
+    $query .= " AND p.id = :parcelle_id";
+    $params[':parcelle_id'] = $parcelle_filter;
 }
 
 $query .= " ORDER BY ip.annee_culturale, p.nom, ip.date, pp.nom
@@ -81,7 +82,7 @@ try {
     $interventions = [];
 
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $key = $row['annee_culturale'] . '_' . $row['parcelle_nom'];
+        $key = $row['annee_culturale'] . '_' . $row['parcelle_id'];
 
         $username = $row['username'];
         $telepac = $row['telepac'];
@@ -89,6 +90,7 @@ try {
         if (!isset($interventions[$key])) {
             $interventions[$key] = [
                 'annee_culturale' => $row['annee_culturale'],
+                'parcelle_id' => $row['parcelle_id'],
                 'parcelle_nom' => $row['parcelle_nom'],
                 'parcelle_ilot' => $row['parcelle_ilot'],
                 'surface' => $row['surface'],
@@ -120,7 +122,7 @@ if ($annee_filter) {
     $count_query .= " AND ip.annee_culturale = :annee_culturale";
 }
 if ($parcelle_filter) {
-    $count_query .= " AND p.nom = :parcelle_nom";
+    $count_query .= " AND p.id = :parcelle_id";
 }
 
 $count_stmt = $db->prepare($count_query);
@@ -128,7 +130,7 @@ if ($annee_filter) {
     $count_stmt->bindValue(':annee_culturale', $annee_filter, SQLITE3_TEXT);
 }
 if ($parcelle_filter) {
-    $count_stmt->bindValue(':parcelle_nom', $parcelle_filter, SQLITE3_TEXT);
+    $count_stmt->bindValue(':parcelle_id', $parcelle_filter, SQLITE3_INTEGER);
 }
 
 $count_result = $count_stmt->execute();
@@ -169,10 +171,10 @@ $total_pages = ceil($total_interventions / $limit);
         <select name="parcelle">
             <option value="">Toutes les parcelles</option>
             <?php
-            $parcelles = $db->query("SELECT DISTINCT nom FROM parcelles ORDER BY nom");
+            $parcelles = $db->query("SELECT id, nom FROM parcelles ORDER BY nom");
             while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)) {
-                $selected = ($parcelle['nom'] == $parcelle_filter) ? 'selected' : '';
-                echo "<option value='" . htmlspecialchars($parcelle['nom']) . "' $selected>" . htmlspecialchars($parcelle['nom']) . "</option>";
+                $selected = ($parcelle['id'] == $parcelle_filter) ? 'selected' : '';
+                echo "<option value='" . htmlspecialchars($parcelle['id']) . "' $selected>" . htmlspecialchars_decode($parcelle['nom']) . "</option>";
             }
             ?>
         </select>
@@ -189,10 +191,10 @@ $total_pages = ceil($total_interventions / $limit);
                     <tr>
                         <th colspan="7">
                             Année culturale: <?= htmlspecialchars($intervention['annee_culturale']) ?> | 
-                            Parcelle : <?= htmlspecialchars($intervention['parcelle_nom']) ?> <br/>
+                            Parcelle : <?= htmlspecialchars_decode($intervention['parcelle_nom']) ?> <br/>
                             Ilot : <?= htmlspecialchars($intervention['parcelle_ilot']) ?> <br/>
                             Surface : <?= htmlspecialchars($intervention['surface']) ?> ha |
-                            Culture : <?= htmlspecialchars($intervention['type_culture']) ?>
+                            Culture : <?= htmlspecialchars_decode($intervention['type_culture']) ?>
                         </th>
                     </tr>
                     <tr>
@@ -209,12 +211,12 @@ $total_pages = ceil($total_interventions / $limit);
                     <?php foreach ($intervention['interventions'] as $detail) : ?>
                         <tr>
                             <td><?php if ($detail['date'] !== $last_date) { echo htmlspecialchars($detail['date']); $last_date = $detail['date'];}  ?></td>
-                            <td><?= htmlspecialchars($detail['produit_nom']) ?></td>
+                            <td><?= htmlspecialchars_decode($detail['produit_nom']) ?></td>
                             <td><?= htmlspecialchars($detail['produit_unite']) ?></td>
                             <td><?= htmlspecialchars($detail['produit_amm']) ?></td>
                             <td><?= htmlspecialchars($detail['volume_total']) ?></td>
                             <td><?= htmlspecialchars($detail['volume_par_ha']) ?></td>
-                            <td><?= htmlspecialchars($detail['cible']) ?></td>
+                            <td><?= htmlspecialchars_decode($detail['cible']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

@@ -19,6 +19,7 @@ $query = "
         ie.id AS intervention_id,
         STRFTIME('%d/%m/%Y', ie.date) AS date,
         ie.annee_culturale,
+        p.id AS parcelle_id,
         p.nom AS parcelle_nom,
         p.ilot AS parcelle_ilot,
         p.culture AS type_culture,
@@ -42,7 +43,7 @@ $query = "
     JOIN 
         engrais e ON ie.engrais_id = e.id
     " . ($annee_filter ? "AND ie.annee_culturale = :annee_culturale " : "") . "
-    " . ($parcelle_filter ? "AND p.nom = :parcelle_nom " : "") . "
+    " . ($parcelle_filter ? "AND p.id = :parcelle_id " : "") . "
     ORDER BY 
         p.nom, ie.annee_culturale, ie.date
 ";
@@ -52,7 +53,7 @@ if ($annee_filter) {
     $stmt->bindValue(':annee_culturale', $annee_filter, SQLITE3_TEXT);
 }
 if ($parcelle_filter) {
-    $stmt->bindValue(':parcelle_nom', $parcelle_filter, SQLITE3_TEXT);
+    $stmt->bindValue(':parcelle_id', $parcelle_filter, SQLITE3_INTEGER);
 }
 $result = $stmt->execute();
 
@@ -107,10 +108,10 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             <select name="parcelle">
                 <option value="">Toutes les parcelles</option>
                 <?php
-                $parcelles = $db->query("SELECT DISTINCT nom FROM parcelles ORDER BY nom");
+                $parcelles = $db->query("SELECT id, nom FROM parcelles ORDER BY nom");
                 while ($parcelle = $parcelles->fetchArray(SQLITE3_ASSOC)) {
-                    $selected = ($parcelle['nom'] == $parcelle_filter) ? 'selected' : '';
-                    echo "<option value='" . htmlspecialchars($parcelle['nom']) . "' $selected>" . htmlspecialchars($parcelle['nom']) . "</option>";
+                    $selected = ($parcelle['id'] == $parcelle_filter) ? 'selected' : '';
+                    echo "<option value='" . htmlspecialchars($parcelle['id']) . "' $selected>" . htmlspecialchars_decode($parcelle['nom']) . "</option>";
                 }
                 ?>
             </select>
@@ -158,10 +159,10 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         <tr>
                             <th>
                             Année culturale : <?php echo htmlspecialchars($intervention['annee_culturale']); ?> |
-                            Parcelle : <?php echo htmlspecialchars($intervention['parcelle_nom']); ?> <br/>
+                            Parcelle : <?php echo htmlspecialchars_decode($intervention['parcelle_nom']); ?> <br/>
                             Ilot : <?php echo htmlspecialchars($intervention['parcelle_ilot']); ?> <br/>
                             Surface : <?php echo htmlspecialchars($intervention['parcelle_surface']); ?> |
-                            Culture : <?php echo htmlspecialchars($intervention['type_culture']); ?>
+                            Culture : <?php echo htmlspecialchars_decode($intervention['type_culture']); ?>
                             </th>
                             <th colspan="10" class="emptyth"></th>
                         </tr>
@@ -184,7 +185,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 ?>
                 <tr>
                     <td><?php echo htmlspecialchars($intervention['date']); ?></td>
-                    <td><?php echo htmlspecialchars($intervention['engrais_nom']); ?></td>
+                    <td><?php echo htmlspecialchars_decode($intervention['engrais_nom']); ?></td>
                     <td><?php echo htmlspecialchars($intervention['engrais_unite']); ?></td>
                     <td><?php echo htmlspecialchars($intervention['quantite']); ?></td>
                     <td><?php echo htmlspecialchars($intervention['quantite_par_ha']); ?></td>
